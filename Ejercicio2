@@ -1,0 +1,30 @@
+##   Ejercicio2
+##   Crear tres variables de 4 entrdas . Las varaibles de nombre: 
+##   Facultad(economia , ingenieria, arq y derecho)
+##   Licenciatura(actuaria, ingenieria civil, arquitectura y derecho)
+##   Calificacion(6,4,10,8)
+
+
+Facultad <- c("Economia", "Ingenieria", "Arquitectura", "Derecho")
+Licenciatura <- c("Actuaria", "Ing. Civil", "Arquitectura", "Derecho")
+Calificacion <- c(6, 4, 10, 8)
+
+##   Verificar con R que tipo de variables son
+##   (Numerico y caracter)
+
+class(Facultad)
+class(Licenciatura)
+class(Calificacion)
+
+##   borrar las variables facultad y licenciatura
+
+rm(Facultad)
+rm(Licenciatura)
+
+##   graficar con pie la variable calificacion
+
+pie(Calificacion)
+
+##   Incorporar los diversos argumentos utilizados en clase
+
+pie(Calificacion, main = "Grafica de pie de Calificaciones", sub = "Fuente: Facultad de Economia", col = c("blue", "green", "pink", "yellow"), radius = .5, clockwise = TRUE, lty = 4)
