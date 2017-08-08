@@ -1,0 +1,57 @@
+### Vectores ###
+a <- 2 + 3                    ##   Vector Longitud 1
+b <- c(3, 4) - c(6, 1)        ##   Esta Diferencia genera un vector de 2 entradas
+b
+c <- c(4, 5, 6) * c(5, 2, 1)  ##   Vector de 3 entradas
+c                             ##   Hace la operacion entrada por entrada
+d <- c(1:50, 7, 99)
+length(d)
+length(c)
+
+####   Operaciones Logicas con vectores
+d >= 45
+d == 50
+d != 35
+
+####   Suceciones con Operador y Funcion
+
+help(seq)
+z <- seq(0, 30, 3)
+z
+seq(from=0, to=30, by=3)
+seq(by=3, to=30, from=0)
+seq(from=1, to=30, by=3)
+seq(10)
+seq(2, 10)
+seq(from=3, to=10)
+secuencia <- seq(1, 10, by=1)
+secuencia1 <- seq(0, 100, by=10)
+sec2 <- seq(300, 130, by=-3)
+sec2
+
+
+##### Muestras #####
+ingreso <- sample((20000:50000, 100)
+(ingreso <- sample(20000:50000, 100))
+ingreso>=40000
+
+###  Desplegar automaticamente el valor del objeto
+aleatorios <- sample(1:10, 20, replace = TRUE)
+(aleatorios <- sample(1:10, 20, replace = T))
+
+##  Para seleccionar la posicion de un vector se 
+ingreso[50]
+ingreso[73]
+ingreso[30:43]
+ingreso[ingreso>40000]
+ingreso[ingreso<22000]
+
+ingreso[c(30,50,70)]
+ingreso [seq (20,50,10)]
+ingreso[ingreso>20000 & ingreso<30000]
+
+
+##   Repetir
+ss <- c(5, -7, 9)
+rr <- (rep(ss, times = 5))
+rr
