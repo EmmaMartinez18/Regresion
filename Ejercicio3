@@ -1,0 +1,42 @@
+#             Ejercicio generar 3 secuencias que generen los siguientes datos
+#    1) 1000 datos que se generen de 3 en 3 y pedir a R el dato 300 del vector generado
+#    2) 450 datos que su secuencia de 50 datos en 50 datos, pedir a R el dato 10
+#    3) 2000 datos que su secuencia sea de .3 en .3
+#    en este caso pedir a R los datos 3, 15, 800 y 1999
+
+sec1 <- seq(from=0, to=2999, by=3)
+length(sec1)
+sec1[300]
+
+sec2 <- seq(from=0, to=2245, by=5)
+length(sec2)
+sec2[10]
+
+sec3 <- seq(from=0, to=599.9, by=.3)
+length(sec3)
+sec3[3]
+sec3[15]
+sec3[800]
+sec3[1999]
+
+#                           Ejercicio datos aleatorios
+#    1) Suponemos una empresa que quiere estimar una pension para sus trabajadores con
+#    base en la antiguedad, por lo que se requiere estimar una muestra de 500 trabajadores
+#    y que sus rangos de antiguedad sean desde 0 hasta 30 años, pedir a R el ultimo
+#    dato de esta muestra
+#    2) Generar una muestra de 50000 datos que tengan un rango de 0 hasta 100000
+#    3) Generar una muestra de 50 datos que tengan un rango de 10 a 19, pedir  R 
+#    los datos 34, 43 y 49
+
+trabajadores <- sample(0:30, 500, replace = TRUE)
+trabajadores[500]
+
+muestra2 <- sample(0:100000,50000)
+muestra22 <- data.frame(sample(0:100000,50000))
+View(muestra22)
+
+
+muestra3 <- sample(10:19,50, replace = TRUE)
+muestra3[34]
+muestra3[43]
+muestra3[49]
