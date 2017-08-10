@@ -1,0 +1,58 @@
+#####  Matrices
+e <- 1:10
+View(e)
+
+##  Para convertirla en matriz se utiliza dim
+dim(e) <- c(5,2)   # matriz de 2 renglones y 5 columnas
+View(e)
+class(e)
+
+dim(e) <- c(2,5)   # matriz de 5 renglones y 2 columnas
+View(e)
+
+## Para mandar a llamar especificamente un dato de la matriz
+e[5,2]             # Aqui mando a llamar el dato del renglon 5 y columna 2
+e[3,2]             # Dato del renglon 3 columna 2
+e[2,2]             # Dato del renglon 2 columna 2
+
+
+## Si solo queremos conocer los valores de una columna 
+e[,2]              # Valores columnas 2
+e[,1]              # Valores columnas 1
+
+## Para valores solo renglones
+e[3,]              # Valores renglon 3
+e[,2]              # Valores columnas 2
+
+## como crear matrices.....
+#  con la funcion matriz
+
+f <- matrix(110:119, nrow = 5, ncol = 2, byrow = TRUE)     #True muestra la numeracion de manera vertical
+f
+f1 <- matrix(110:119, nrow = 5, ncol = 2, byrow = FALSE)   #False muestra de manera horizontal
+f1
+g <- matrix(1:10, nrow = 5, ncol = 2)
+g
+
+## tambien se le pueden asignar nombres a renglones y columnas de las matrices
+rownames(f) <- c("manzana", "naranja", "piña", "melon", "mango")
+colnames(f) <- c("mercado1", "mercado2")
+
+## Si tenemos una matriz grande y queremos preguntarle a R el nombre de las columnas
+colnames(f)
+rownames(f)
+
+## Para saber los datos de una columna
+f["manzana", "mercado2"]
+View(f)
+
+h <- matrix(2:21,nrow = 4, ncol=5)
+h
+
+## Otra forma de generar matrices en R
+i <- rbind(1:2, 4:3, c(5, 6), c(2, 7), c(8, 9))
+i
+# cada argumento se define un renglon
+
+j <- cbind(5:3, c(4,5,6), 9:7, c(1,5,7), 3:5)
+j
