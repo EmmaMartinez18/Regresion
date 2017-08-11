@@ -1,0 +1,89 @@
+mat <- 11:30
+length(mat)
+dim(mat) <- c(5,4)
+View(mat)
+
+colnames(mat) <- c("Toluca", "Pachuca", "GDL", "MTY")
+rownames(mat) <- c("Escuela1", "Escuela2", "Escuela3", "Escuela4", "Escuela5")
+View(mat)
+
+mat["Escuela3", "Toluca"]
+mat["Escuela5", "GDL"]
+mat["Escuela1", "Pachuca"]
+
+##  2) crear con la funciÃ³n matrix una matriz de 6 renglones
+#   y 3 columnas.... y preguntar por el dato de la matriz en el renglon 3 y columna 3
+
+f <- matrix(12:29, nrow = 6, ncol = 3, byrow = TRUE)
+f
+f[3,3]
+f1 <- matrix(12:29, nrow = 6, ncol = 3, byrow = FALSE)
+f1
+f1[3,3]
+
+###   Para pegar un renglon a la matriz mat
+
+mat <- rbind(mat, c(4,5,6,7))
+mat
+rownames(mat) <- c("Escuela1", "Escuela2", "Escuela3", "Escuela4", "Escuela5", "Escuela6")
+
+## Para pegar una columna a la matriz mat
+
+mat <- cbind(mat, c(14,25,36,47,99,81))
+mat
+colnames(mat) <- c("Toluca", "Pachuca", "MTY", "GDL", "Jocotitlan")
+
+mat["Escuela1","Jocotitlan"] <- 28  #Editar la matriz en una posicion
+mat
+edit(mat)
+
+## Para multiplicar matrices se utiliza %*%
+#  j%*%i
+## Para transpuesta de una matiz se utiliza t()
+#  t(i)
+
+
+#########DATA FRAME
+nombres <- c("Sergio","Juan","Rosio","Jessica")
+edad <- c(30, 43, 21, 18)                  #  Creo vectores
+altura <- c(170,165,175,172)               #  Creo vectores
+salario <- c(3000,4500,2200,4300)          #  Creo vectores
+basem <- data.frame (nombres, edad, altura, salario)
+View(basem)
+
+basem [4,3] <- 178                         #  basem <- data.frame (nombres, edad, altura, salario)   
+                                           #  Asigno el valor 178 a la posicion del 4to renglon 
+                                           #  3ra columna
+basem$salario * 2.2 -> basem$salario       #  multiplico salario por 2.2
+basem
+peso <- c(83.2,75.2,69.2,70.5)
+basem <- data.frame (nombres, edad, altura, salario, peso)
+basem
+
+basem$peso *1.2 -> basem$peso
+basem
+
+round(basem$peso,2) -> basem$peso          #  Redondeo
+basem
+
+basem$escol = c("Prepa", "lic", "Ninguno", "Prim")
+basem
+
+###   Incorporar variable sexo
+basem$sexo <- c(1,1,2,2)
+basem
+table (basem$sexo)                           #  Tabla de Frecuencia
+attach (basem)
+table (sexo)
+detach (basem)                               #  Elimina la funcion atach
+
+#####   Instalar paqueterias desde internet
+install.packages("foreign")                  #  Foreing Sirve para exportar o importar bases de datos
+install.packages("car")                      #  car es para regresion
+install.packages("questionr")                #  es para expandir frecuencias de bases de datos muestrales
+# Dentro de cada paquete vienen multiples funciones que solo las podeos usar cuando mandamos a llamar un paquete
+install.packages(c("foreing","questionr","car"))      #    De esta forma instalamos multiples paqueterias
+# Para poder llamar una paqueteria instalada, library() y require() son funciones equivalentes
+library (foreign)
+library (questionr)
+require (car)
