@@ -1,0 +1,22 @@
+require (foreign)
+mti2015 <- read.dbf ("C:/Users/Sala-D16/Desktop/mti2015_05_17_sdem_precodificado.DBF")
+table (mti2015$SEX)
+install.packages("questionr")
+library(questionr)
+require (questionr)
+wtd.table(mti2015$SEX, weights = mti2015$FAC_MTI)     #   Columnas y renglones 
+#   Crea una tabla muestrales (Solo se puede hacer con dos variables)   
+ls (mti2015)
+sum (mti2015$FAC_MTI)
+table(mti2015$R_DEF_ENOE)                             #   Tablas estadisticas
+table(mti2015$CS_P12)
+wtd.table(mti2015$CS_P12, weights = mti2015$FAC_MTI)
+wtd.table(mti2015$EDA, weights = mti2015$FAC_MTI)     
+
+###   Filtracion de Datos   ###
+edomex <- subset (mti2015, mti2015$ENT == 15)
+edomuj <- subset (mti2015, mti2015$ENT == 15 & mti2015$SEX == 2)
+AguasZaca <- subset(mti2015, mti2015$ENT == 01 | mti2015$ENT == 32)
+table(AguasZaca$ENT)
+as.numeric(mti2015$ENT)
+class(mti2015$ENT)
