@@ -1,0 +1,13 @@
+require (foreign)
+mti2015 <- read.dbf ("C:/Users/Sala-D16/Desktop/mti2015_05_17_sdem_precodificado.DBF")
+
+AguasZaca <- subset(mti2015, mti2015$ENT == "01" | mti2015$ENT == 32)
+table (AguasZaca$ENT)
+class (AguasZaca$ENT)                              
+
+###     Conversion a numerico       ###
+
+cnver <- as.numeric(mti2015$ENT)                    #   Conversión
+class (cnver)                                       #   Valor Numerico
+AgZac <- subset (mti2015, cnver == 01 | cnver == 32)
+table(AgZac$ENT)
