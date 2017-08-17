@@ -1,0 +1,37 @@
+temporal <- tempfile()
+download.file("http://www.beta.inegi.org.mx/contenidos/proyectos/enchogares/modulos/mti/2015/microdatos/mti2015_bases_conapo_dbf.zip", temporal)
+files = unzip(temporal, list=TRUE)$Name
+unzip(temporal, files=files[grepl("dbf",files)])
+library(foreign)
+files
+mti2015 <- data.frame(read.dbf("mti2015_05_17_sdem_precodificado.DBF"))
+View (mti2015)
+class(mti2015$ENT)
+mti2015$ENT <- as.numeric(mti2015$ENT)
+class(mti2015$ENT)
+
+
+####      ETIQUETAR
+table (mti2015$CS_P15)
+
+####      Etiquetar variableS categoricas en otra variable
+mti2015$CS_P15 <- factor(mti2015$CS_P15, levels = c(1,2,3,4), labels = c("Primaria", "Secundaria", "Preparatoria", "No sabe"))
+table(mti2015$CS_P15)
+wtd.table(mti2015$CS_P15)
+
+table (mti2015$RAMA)
+mti2015$RAMA <- factor(mti2015$RAMA, levels = c(1,2,3,4,5,6,7), labels = c("Agropecuario", "Construccion", "Industria Manufacturera", "Comercio", "Servicios", "Otros", "NE"))
+table (mti2015$RAMA)
+wtd.table(mti2015$RAMA)
+
+mti2015$RAMA <- as.numeric(mti2015$RAMA)
+mti2015$RAMA2[mti2015$RAMA == 1] <- 1
+mti2015$RAMA2[mti2015$RAMA == 2] <- 2  
+mti2015$RAMA2[mti2015$RAMA == 3] <- 2
+mti2015$RAMA2[mti2015$RAMA == 4] <- 3
+mti2015$RAMA2[mti2015$RAMA == 5] <- 3
+mti2015$RAMA2[mti2015$RAMA == 6] <- 4
+mti2015$RAMA2[mti2015$RAMA == 7] <- 4
+
+mti2015$RAMA2 <- factor(mti2015$RAMA2, levels = c(1,2,3,4), labels = c("Primario", "Secundario", "Terciario", "NE"))
+table(mti2015$RAMA2)
