@@ -1,0 +1,23 @@
+###         TAREA  3         ###
+
+
+x <- c(59,63,68,72,74,78,83)
+y <- c(118,182,247,208,197,135,132)
+plot(x,y, main = "ALARGAMIENTO DEL QUESO", col = "blue", xlab ="Temperatura", ylab = "Alargamiento del queso %")
+
+correlacion <- cor(y,x)
+dsx <- sd(x)
+dsy <- sd(y)
+
+Beta1 <- (cor(y,x)*(sd(y)/sd(x)))
+Beta1
+Beta0 <- (mean(y)-(Beta1*mean(x)))
+Beta0
+
+Media <- (Beta0+(Beta1*89))
+Media
+
+p1 <- pnorm(210,mean = Media, sd = 4, lower.tail = FALSE)
+p2 <- pnorm(230,mean = Media, sd = 4, lower.tail = FALSE)
+
+p1-p2
