@@ -1,0 +1,18 @@
+###     EJERCICIO 4     ###
+
+x <- c(132,129,120,113.2,105,92,84,83.2,88.4,59,80,81.5,71,69.2)
+y <- c(46,48,51,52.1,54,52,59,58.7,61.6,64,61.4,54.6,58.8,58)
+plot(x,y, col = "blue", main = "Camisas Producidas", xlab = "Salario", ylab = "Numero de camisas producidas")
+
+Sxx <- sum((x)^2)-((sum(x))^2)/14
+Sxy <- sum(x*y)-((sum(x))*(sum(y)))/14
+
+beta1 <- Sxy/Sxx
+beta0 <- mean(y)-(beta1*mean(x))
+
+y1 <- beta0 + beta1*(115)
+y2 <- beta0 + beta1*(138)
+y3 <- beta0 + beta1*(55)
+y4 <- beta0 + beta1*(99)
+y5 <- beta0 + beta1*(290)
+y6 <- beta0 + beta1*(71)
