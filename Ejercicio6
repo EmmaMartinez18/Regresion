@@ -1,0 +1,48 @@
+###                              Ejercicio  6                          ###
+###  Se busca la relacion de estatura (x) con longitud del salto (y)
+
+x <- c(170,172,173,174,174,175,176,177,180,180,180,180,180,181,181,182,182,
+       182,182,184,184,185,186,188)
+
+y <- c(.84,1.31,1.42,1.03,1.07,1.08,1.04,1.8,1.45,1.60,1.61,2.13,2.15,.84,1.43,
+       .90,1.81,1.94,2.68,1.49,2.52,3.00,1.87,3.08)
+
+###   1) Determine la ecuacion de la recta de regresion estimada 
+
+Sxy <- (sum(x*y)-((sum(x)*sum(y))/length(x)))
+Sxx <- (sum(x^(2))-(sum(x)^(2))/length(x))
+
+Beta1 <- Sxy/Sxx
+Beta0 <- mean(y)-(Beta1*mean(x))
+
+y0 <- Beta0 + Beta1*(x)
+
+
+###   * OTRA FORMA
+md1 <- lm(y~x)
+summary (md1)
+d <- md1$coefficients[-1]
+
+###   2) Calcule una estimacion puntual del salto hoizontal promedio cuando la estatura
+###   de la persona es de 182 
+
+y182 <- Beta0 + Beta1*(182)
+
+###   3) Calcule los valores de los residuos de min cuadrado de las 4 observaciones
+###   con los cuales la estatura es de 182
+
+v1 <- .90-y182
+v2 <- 1.82-y182
+v3 <- 1.92-y182
+v4 <- 2.68-y182
+
+###   ¿Que proporcion de la variacion observada en el salto horizontal es atribuido 
+###   a la relacion de reg lineal simple? 45.13%
+
+
+SSE <- sum((y-y0)^2)
+SST <- sum((y-(mean(y)))^2)      ###   sum(y^2) - (sum(y))^2/length(x)
+r2 <- 1- SSE/SST
+
+plot (y~x, xlab = "Estatura", ylab = "Salto Horizontal",col = "blue", xlim = c(160,190),ylim = c(.80,3.2), main = "Grafica de dispersion")
+
