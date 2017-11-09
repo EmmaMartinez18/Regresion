@@ -1,0 +1,57 @@
+#     EJERCICIO 
+
+#   Swiss 
+#   Medicion estandarizada de la fecundidad e indicadores socioeconomicos para cada una de las 47 
+#   provincias francesas hablantes de Suiza al rededor de 1888 
+require(stats)
+base <- data.frame(swiss)
+
+#   Analisis exploratorio 
+names(base)
+pairs(base)
+cor(base)
+
+#   Propuesta de Modelo de regresion simple con base en el analisis expiratorio
+regresion1 <- lm(Infant.Mortality ~ Fertility, data = base)
+
+#   Modelo propuesto anteriormente 
+nulo <- lm(Fertility ~ 1, data = base)           #  Var. indep. con una constante 
+                                                 #  (para conocer la relacion que existe)
+summary(nulo)
+completo <- lm(Fertility ~ ., data = base)       #  lm(fertility ~ Infant.Mortality + Educatio
+                                                 #   + examination + agruculture + catholic) 
+                                                 #  el punto representa todas las variables independientes  
+step(nulo, scope = list(lower = nulo, upper = completo), direction = "forward") 
+                                                 # step nos permite calcular AIC 
+                                                 # scope evalua el modelo nulo con el completo
+summary(completo)
+help(step)
+
+###     PRACTICA 
+
+require(stats)
+base <- data.frame(ability.cov)
+
+
+#   Analisis exploratorio 
+names(base)
+pairs(base)
+cor(base)
+
+nulo <- lm(cov.general ~ 1, data = base)           
+summary(nulo)
+completo <- lm(cov.general ~ cov.picture + cov.blocks + cov.maze + cov.reading, data = base)        
+step(nulo, scope = list(lower = nulo, upper = completo), direction = "forward") 
+summary(completo)
+
+#   En este modelo consideramos como variable dependiente a cov.general y 
+#   como variables independientes a cov.picture + cov.blocks + cov.maze + cov.reading
+#   Al realizar nuestro modelo nulo nos proporciono un AIC = 30.47
+#   Mientras que nuestro modelo completo podemos darnos cuenta que tenemos dos modelos
+#   el primero cov.general ~ cov.blocks con AIC = 27.95 y si a este le agregamos cov.reading
+#   es decir, cov.general ~ cov.blocks + cov.reading obtenemos un modelo aun mejor con 
+#   un AIC = 23.64 haciendo el mejor modelo de la combinacion de todos los anteriores
+
+#   Tenemos un error estandar residual de 10.25 que es un error bajo, tambien observamos 
+#   la r ajustada de .2392 lo que explica el 23.92% de la variabilidad del modelo  
+#   que tenemos. Un estadistico F como un valor de 1.393 y p value = .5554 mayor a .05 
