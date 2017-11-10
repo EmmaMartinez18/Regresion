@@ -1,0 +1,108 @@
+#   Swiss 
+#   Medicion estandarizada de la fecundidad e indicadores socioeconomicos para cada una de las 47 
+#   provincias francesas hablantes de Suiza al rededor de 1888 
+require(stats)
+base <- data.frame(swiss)
+
+#   Analisis exploratorio 
+names(base)
+pairs(base)
+cor(base)
+
+#   Propuesta de Modelo de regresion simple con base en el analisis expiratorio
+regresion1 <- lm(Infant.Mortality ~ Fertility, data = base)
+
+#   Modelo propuesto anteriormente 
+nulo <- lm(Fertility ~ 1, data = base)           #  Var. dep. con una constante 
+                                                 #  (para conocer la relacion que existe) 
+                                                 #  Modelo mas basico para contratarlo con otros modelos
+summary(nulo)
+completo <- lm(Fertility ~ ., data = base)       #  lm(fertility ~ Infant.Mortality + Educatio
+                                                 #   + examination + agruculture + catholic) 
+                                                 #  el punto representa todas las variables independientes  
+step(nulo, scope = list(lower = nulo, upper = completo), direction = "forward") 
+                                                 # step nos permite calcular AIC 
+                                                 # scope evalua el modelo nulo con el completo
+summary(completo)
+help(step)
+
+mod1 <- lm(Fertility ~ Education + Catholic + Infant.Mortality + Agriculture, data = base) 
+summary(mod1)
+
+#   Con la finalidad de observar espectos basicos como la r cuadrada ajustada que nos
+#   permite conocer la variabilidad explicada del modelo, los errores de residuos  al
+#   standar 7.168, la significancia de las variables
+#   El estadistico F y el p-value para ver el ajste del modelo. La prueba de hipotesis 
+#   que se aplica en el estadistico F es 
+#   Ho: B0,B1,B2,...,Bk = 0
+#   ha: al menos un Bj diferente de cero
+#   Aqui esperamos rechazar la hipotesis nula, por lo que el valor p-value deber ser < .05
+#   y ademas el estadistico F debe ser mayor a 1 
+#   Al parecer tenemos un buen modelo segun estos indicadores 
+#   Hipotes alternativa: Los errores se distribuyen normalmente 
+
+###   PRUEBAS FORMALES DE LOS SUPUESTOS
+#   Pruebas de mrm (modelo de regresion multiple)
+
+shapiro.test(rstudent(mod1))  # Prueba shapiro para normalidad, aqui esperamos no rechazar
+#   la hipotesis nula por lo que el valor de p-value debe ser mayor a .05, y aqui observamos 
+#   un p-value de .48 por lo que podemos mencionar que rechazamos la hip. nula, es decir,
+#   los errores se distribuyen normal
+
+require(lmtest)
+bptest(mod1)  # Prueba Breausch pagan que permite ver autocorrelacion, aqui esperamos no 
+#   rechazar la hip. nula es decir un p-value mayor a .05 este modelo nos permite saber
+#   que no hay mas de dos variables que aporten lo mismo al modelo, en este caso tenemos
+#   un p-value 0.53, por lo que no rechazamos la hip. nula que es lo que estabamos esperando
+#   o se puede decir que este modelo si cumple el supuesto de autocorrelacion
+
+dwtest(mod1, alternative = "two.sided")  #  Prueba de independencia 
+summary(mod1)
+
+#   La prueba t para Ho: agri = 0 a
+#   Ha: agri != 0 es signiticativa ya que .0187 es menor que .05
+
+#   Interpretacion de coeficientes 
+#   El modelo elegido estima que hay una disminucion de 0.15 en la tasa de fecundidad
+#   por cada aumento de 1 por ciento de hombres involucrados en la agricultura manteniendo
+#   constantes las variables restantes.
+#   Agriculture... -.01546... coeficientes
+
+#   El modelo alegido estima que hay una disminucion de 0.98 en la tasa de fecundidad 
+#   cada aumento de 1 por ciento de educacion manteniendo constantes las variables restantes.
+#   Educacion... -0.9802.. coeficiente
+
+#   El modelo alegido estima que hay un incremento de 0.12 en la tasa de fecundidad 
+#   cada aumento de 1 por ciento de la poblacion catolica manteniendo constantes las variables restantes.
+#   Catholic... 0.1202... coeficiente
+
+#   El modelo alegido estima que hay un incremento de 1.07 en la tasa de fecundidad 
+#   cada aumento de 1 por ciento de mortalidad infantil manteniendo constantes las variables restantes.
+
+
+###   ANALISIS EXPLORATORIO 
+
+base1 <- data.frame(Seatbelts)
+View(base1)
+names(base1)
+pairs(base1)
+cor(base1)
+
+nulo <- lm(drivers ~ 1, data = base1)           
+summary(nulo)
+completo <- lm(drivers ~ ., data = base1)         
+step(nulo, scope = list(lower = nulo, upper = completo), direction = "forward") 
+
+summary(completo)
+help(step)
+
+mod2 <- lm(drivers ~ DriversKilled + front + rear + law + VanKilled, data = base1) 
+summary(mod2)
+
+shapiro.test(rstudent(mod2)) 
+
+require(lmtest)
+bptest(mod2)
+
+dwtest(mod1, alternative = "two.sided")  #  Prueba de independencia 
+summary(mod1)
