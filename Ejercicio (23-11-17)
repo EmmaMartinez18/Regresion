@@ -1,0 +1,183 @@
+#################     EJERCICIO      ###################
+#   Se estudia Y = tasa de respiracion
+#   bajo puntos de goteo con un recubrimiento galvanizado
+#   El agua que cae sobre el linque contiene zinc y potasio
+#   que utilizamos como variables explicativas
+
+tasa.respiracion <- c(71,53,55,48,69,84,21,68,68)
+potasio <- c(388,258,292,205,449,331,114,580,622)
+zinc <- c(2414,10693,10682,12560,2464,2607,16205,2005,1825)
+
+Estudio <- data.frame(tasa.respiracion,potasio,zinc)
+pairs(Estudio)
+cor(Estudio)
+
+regnull <- lm(tasa.respiracion ~ 1, data = Estudio)
+allreg <- lm(tasa.respiracion ~ ., data = Estudio)
+
+step(regnull, scope = list(lower = regnull, upper = allreg), direction = "forward")
+
+
+
+####   Limites para predecir (Estimaciones puntuales)
+linestudio <- seq(min(Estudio$zinc), max(Estudio$zinc), length = 9)
+linestudio <- data.frame(linestudio)
+linestudio
+linestud <- predict.lm(allreg,linestudio, interval = "prediction", se.fit = TRUE, data = Estudio)
+head(linestud$fit) ###  Te generan los limites
+#   Para dibujar los limites
+#   fit valor ajustado en base al modelo liminf = 53.10 y el limsup = 99.05
+matplot(linestudio,linestud$fit, type = "l")
+#   Grafica primero los limites y despues los valores ajustados Rojo(inferior) y el verde(superior)
+
+##    PREDICCIONES
+predict(allreg, data.frame(zinc = 10000, potasio = 40), interval = "predict")
+##    Nuestra tasa de respiracion es de 61.7250 y se va a mover entre 35.19 y 88.25
+
+
+
+
+################  RITMO CARDIACO PERSONAS CON DIABETES
+
+peso <- c(74,92,63,58,78,85,85,73,62,80,71,74)
+altura <- c(168,196,170,175,162,169,190,186,176,170,176,179)
+ritmo <- c(62,75,60,71,66,62,79,74,70,66,71,69) # var dep
+edad <- c(25,31,29,64,44,41,37,35,34,29,19,50)
+
+base0 <- data.frame(peso,altura,ritmo,edad)
+
+pairs(base0)
+cor(base0)
+
+null <- lm(ritmo ~ 1, data = base0)
+all <- lm(ritmo ~ ., data = base0)
+
+step(null, scope = list(lower = null, upper = all), direction = "forward")
+
+mod0 <- lm(ritmo ~ altura, data = base0)
+summary(mod0)
+
+#   En este modelo consideramos como variable dependiente a RITMO y 
+#   como variables independientes a PESO + ALTURA + EDAD
+#   Al realizar nuestro modelo nulo nos proporciono un AIC = 43.02
+#   Mientras que nuestro modelo completo podemos darnos cuenta que tenemos un mejor modelo
+#   ritmo ~ altura con AIC = 30.48 haciendo el mejor modelo de la combinacion de todos los anteriores
+
+#   Tenemos un error estandar residual de 3.302 que es un error bajo, tambien observamos 
+#   la r ajustada de .6725 lo que explica el 67.25% de la variabilidad del modelo  
+#   que tenemos. Un estadistico F como un valor de 23.59 y p value = .00066 
+
+
+###   Modelos aceptables y realizamos las pruebas...
+shapiro.test(rstudent(mod0))
+#   Cumple con la prueba de shapiro ya que p-value = .9462 > .05
+
+
+require (lmtest)
+bptest(mod0)
+#   Cumple con la prueba de Breausch ya que p-value = .4444 > .05
+
+
+dwtest(mod0,alternative = "two.sided")
+#   Cumple con la prueba de Durbin-Watson ya que DW = 1.9197 > .05
+
+summary(mod0)
+
+#   Ecuacion del modelo
+#   y = -17.1479 + (0.4869)x1 + e
+
+#   INTERPRETACION DE LOS DATOS
+
+#   En este modelo podriamos decir que por cada unidad del ritmo que aumenta,
+#   aumenta en 0.4869 la altura
+
+####   Limites para predecir (Estimaciones puntuales)
+
+####        PESO
+limbase0 <- seq(min(base0$peso), max(base0$peso), length = 12)
+limbase0 <- data.frame(limbase0)
+limbase0
+limbas <- predict.lm(all,limbase0, interval = "prediction", se.fit = TRUE, data = base0)
+head(limbas$fit) 
+matplot(limbase0,limbas$fit, type = "l")
+
+####        ALTURA
+limbase1 <- seq(min(base0$altura), max(base0$altura), length = 12)
+limbase1 <- data.frame(limbase1)
+limbase1
+limbas1 <- predict.lm(all,limbase1, interval = "prediction", se.fit = TRUE, data = base0)
+head(limbas1$fit) 
+matplot(limbase1,limbas1$fit, type = "l")
+
+####        EDAD
+limbase2 <- seq(min(base0$edad), max(base0$edad), length = 12)
+limbase2 <- data.frame(limbase2)
+limbase2
+limbas2 <- predict.lm(all,limbase2, interval = "prediction", se.fit = TRUE, data = base0)
+head(limbas2$fit) 
+matplot(limbase2,limbas2$fit, type = "l")
+
+##    PREDICCIONES
+predict(all, data.frame(peso = 60, altura = 190, edad = 61), interval = "predict")
+#   El ritmo cardiaco para una persona de edad 61, peso 60 y altura 190 sera de 77.6974
+#   con un limite inf de 66.5748 y un limite sup de 88.8200
+
+
+
+#########     EJERCICIO
+Ncajas <- c(10,15,10,20,25,18,12,14,16,22,24,17,13,30,24)
+Distancia <- c(30,25,40,18,22,31,26,34,29,37,20,25,27,23,33) 
+Timpo <- c(24,27,29,31,25,33,26,28,31,39,33,30,25,42,40) #  Variable dependiente
+
+bas <- data.frame(Ncajas,Distancia,Timpo)
+pairs(bas)
+cor(bas)
+
+null <- lm(Timpo ~ 1, data = bas)
+all <- lm(Timpo ~ ., data = bas)
+
+step(null, scope = list(lower = null, upper = all), direction = "forward")
+#   Nuestro modelo nulo tuvo AIC = 53.01
+#   De acuerdo a nuestro modelo completo nuestro mejor modelo es 
+#   Timpo ~ Ncajas + Distancia con un AIC = 36.99 
+
+mod <- lm(Timpo ~ Ncajas + Distancia, data = bas)
+summary(mod)
+
+#   El valor ajustado fue de 0.6929 con un valor residual de 3.141 
+#   y un p-value = 0.00033 < 0.05
+
+shapiro.test(rstudent(mod)) ##    Prueba de Normalidad
+#   No cumple con la prueba de shapiro ya que p-value = 1.985e-06 > .05
+
+
+require (lmtest)
+bptest(mod)
+#   Cumple con la prueba de Breausch ya que p-value = 0.2669 > .05
+
+
+dwtest(mod,alternative = "two.sided")
+#   El valor de DW = 2.6193 lo cual implica que cumple con la prueba
+
+#   Se utiliza tiempo de var. dep. para decirle a los clientes cuanto va a dardar
+#   en llegar el producto 
+#   Saben que lsa var. que importan en el tiempo de entrega son la distancia y el
+#   # de cajas
+
+####    No pasa normalidad por lo que hay que revisae los outlier
+install.packages("car")
+require(car)
+outlierTest(all, cutoff = .05, n.max = 5, oder = T)
+influencePlot(all, id.n = 5)
+#   La obsevacion 5 indica con problemas
+#   ahora para confirmar los casos que tienen implicaciones
+#   en el modelo se aplica en grafico de distacias de cook
+cmod2 <- cooks.distance(all)
+cmod2
+#   etique <- rownames(ejer)
+install.packages("faraway")
+require(faraway)
+halfnorm(cmod2, ylab = "dist cook")
+#   Aqui esperariamos un dato mayor a 1 para comprobar que si es atipico 
+#   El numero mas alto es el 5 por lo que ahora una solucion es eliminarlo
+#   volver a aplicar shapiro
